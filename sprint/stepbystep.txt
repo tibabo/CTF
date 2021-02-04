@@ -1,0 +1,178 @@
+
+P0: arg9 = 0x7000; 
+P38: arg7 = arg9;                       
+P74: *arg7 = 0x1; 						[0x7000] = 1
+P108: arg7 = arg9 + 2; 
+P149: *arg7 = 0x1; 						[0x7002] = 1
+P183: arg11 = 0x2; 						arg11 = 2
+
+P218: arg17 = arg11 + arg11;            arg17 = arg11 *2; 
+P264: arg7 = 0x7000 + arg17; 			arg7 = 7000 + arg17   7004 7006 7008 ... jusqu'a trouver un 0
+P310: arg15 = *arg7; 					
+P347: if( arg15 ) goto P804; 
+P384: arg13 = arg11 + arg11;            arg13 = arg11 *2; 
+P430: arg7 = 0xffef; 					[0xffef] = 4
+P468: *arg7 = arg13; 
+P505: arg7 = 0xfff0;                     
+P543: arg15 = *arg7;                    arg15 = [0xfff0]; 0 
+P580: if( arg15 ) goto P804;            
+P617: arg17 = arg13 + arg13; 
+P663: arg7 = 0x7000 + arg17; 
+P709: *arg7 = 0x1; 
+P743: arg13 = arg13 + arg11; 
+P789: goto P430;
+P804: arg11 = arg11 + 1;                 arg11++;
+P847: if( arg11 ) goto P218; 
+
+
+[ffef] f6
+[fff0]  1
+[7000]  1
+[7002]  1
+[7004]  1
+[7008]  1
+[700c]  1
+[7010]  1
+
+P884: arg9 = 0xe000;                  // compte la taille de la chaine
+P922: arg11 = 0; 
+P957: arg7 = arg9; 
+P993: arg13 = *arg7; 
+P1030: if( arg13 ) goto P1082; 
+P1067: goto P1185;
+P1082: arg11 = arg11 + -1; 
+P1129: arg9 = arg9 + 1; 
+P1170: goto P957;
+
+
+P1185: arg17 = arg11 + 254;          // soustrait la taille de la chaine
+P1232: if( arg17 ) goto P1284;       
+P1269: goto P1334;
+P1284: arg23 = 0x5;                   error
+P1319: goto P5081;                   != 254 quitte
+
+//init
+P1334: arg9 = 0; 
+P1368: arg11 = 0; 
+P1403: arg7 = 0xf100; 
+P1441: arg13 = *arg7;             arg13 = 17 0x11
+P1478: arg15 = 0x1; 
+P1513: arg23 = 0;                  error null
+
+//debut de boucle
+P1548: arg7 = 0xe000 + arg9; 
+P1593: arg17 = *arg7; 
+P1630: if( arg17 ) goto P1682; 
+P1667: goto P3479;                 fin du password arg15 must be != 0 arg11 must be 9
+P1682: arg9 = arg9 + 1; 
+P1723: arg19 = arg17 + -117;      /u arg17 = -0x10; 
+P1770: if( arg19 ) goto P1861; 
+P1807: arg17 = 0xfff0; 
+P1846: goto P2373;
+P1861: arg19 = arg17 + -114;      /r arg17 = 0x1; 
+P1908: if( arg19 ) goto P1995; 
+P1945: arg17 = 0x1; 
+P1980: goto P2373;
+P1995: arg19 = arg17 + -100;      /d arg17 = 0x10; 
+P2042: if( arg19 ) goto P2130; 
+P2079: arg17 = 0x10; 
+P2115: goto P2373;
+P2130: arg19 = arg17 + -108;      /l arg17 = -1;
+P2177: if( arg19 ) goto P2268; 
+P2214: arg17 = 0xffff; 
+P2253: goto P2373;
+P2268: arg15 = 0;                 // fail
+P2303: arg17 = 0; 
+P2338: arg23 = 0x1;                // error
+
+P2373: arg13 = arg13 + arg17; 
+P2419: arg7 = 0xffef; 
+P2457: *arg7 = arg13;        [ffef] = arg13
+P2494: arg7 = 0xfff0; 
+P2532: arg17 = *arg7;       
+P2569: if( arg17 ) goto P3429;   if (arg13 > 255) break; fail 
+P2606: arg7 = 0xf000 + arg13;   var17 = [0xf000 + var13] & 0xff;
+P2652: arg17 = *arg7; 			var17 *=2
+P2689: arg7 = 0xffef; 			[7000]
+P2727: *arg7 = arg17; 
+P2764: arg7 = 0xfff0; 
+P2802: *arg7 = 0; 
+P2836: arg7 = 0xffef; 
+P2874: arg17 = *arg7; 
+P2911: arg17 = arg17 + arg17; 
+P2957: arg7 = 0x7000 + arg17; 
+P3003: arg17 = *arg7; 
+P3040: 	if( arg17 == 0 )
+	   	{
+		arg17 = arg11 + 1; 
+		arg7 = 0xf102 + arg17; 
+		arg17 = *arg7; 
+		arg17 = arg17 + arg13; 
+			if( arg17 ==0 ) 
+			{ 
+				 arg11 = arg11 + 1; 
+			}
+			continue;	
+	    }
+
+
+
+P3344: arg15 = 0;                    fail
+P3379: arg23 = 0x2;                  error
+P3414: goto P1548;                  continue
+
+P3429: arg23 = 0x4;                   error
+P3464: goto P65534;                 //fail
+P3479: if( arg15 ) goto P3531;      arg15 must be != 0
+P3516: goto P5081;                 //fail
+P3531: arg17 = arg11 + -9;           arg11 must be 9
+P3578: if( arg17 ) goto P3630;     //fail
+P3615: goto P3680;                 //sucess   arg17 must be 0
+P3630: arg23 = 0x3;                // error
+P3665: goto P5081;                 // fail
+P3680: arg9 = 0; 
+P3714: arg11 = 0; 
+
+//arg9 index de character  sur le flag
+P3749: arg13 = arg9 + -39;      le flag fait 38 character 
+P3795: if( arg13 ) goto P3847; 
+P3832: goto P4987;
+P3847: arg15 = 0x4;            arg15 =4
+P3882: arg13 = 0;              arg13 = 0
+P3917: arg13 = arg13 + arg13;  arg13 *=4
+P3963: arg13 = arg13 + arg13; 
+P4009: arg7 = 0xe000 + arg11;    arg11 index de character sur le password
+P4055: arg17 = *arg7; 
+P4092: arg19 = arg17 + -117; 
+P4139: if( arg19 ) goto P4191; 
+P4176: goto P4632;
+P4191: arg19 = arg17 + -114; 
+P4238: if( arg19 ) goto P4333; 
+P4275: arg13 = arg13 + 1; 
+P4318: goto P4632;
+P4333: arg19 = arg17 + -100; 
+P4380: if( arg19 ) goto P4475; 
+P4417: arg13 = arg13 + 2; 
+P4460: goto P4632;
+P4475: arg19 = arg17 + -108; 
+P4522: if( arg19 ) goto P4617; 
+P4559: arg13 = arg13 + 3;      
+P4602: goto P4632;
+P4617: goto P5081;
+P4632: arg11 = arg11 + 1;      arg11++;
+P4675: arg15 = arg15 + -1;     arg15++; arg15 ne laisse passer que tout les 4 iterations
+P4722: if( arg15 ) goto P3917; 
+P4759: arg7 = 0xf10c + arg9;   table en [f10c]
+P4804: arg15 = *arg7; 
+P4841: arg7 = 0xe800 + arg9; 
+P4886: *arg7 = arg15 + arg13; arg13 un offset qui varrit en fonction du password compose de r u d l
+P4931: arg9 = arg9 + 1; 
+P4972: goto P3749;
+
+//termine la string avec un 0
+P4987: arg7 = 0xe800 + arg9; 
+P5032: *arg7 = 0; 
+P5066: goto P65534;
+P5081: arg7 = 0xe800; 
+P5119: *arg7 = 0; 
+P5153: goto P65534;
